@@ -2339,7 +2339,7 @@
                             <div class="media-body">
                                 <h2 class="media-heading">{{ comic.title }}
                                     <span class="label label-danger">#{{ comic.issueNumber }}</span>
-                                    <span class="badge">${{ comic.prices[0].price }}</span>
+                                    <span class="badge" ng-if="comic.prices[0].price > 0">${{ comic.prices[0].price }}</span>
                                 </h2>
                                 <p>{{ comic.description }}</p>
                             </div>
