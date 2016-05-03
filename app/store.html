@@ -2331,15 +2331,15 @@
         <div class="row row-content">
             <div class="col-xs-12">
                 <ul class="media-list">
-                    <li class="media">
+                    <li class="media" ng-repeat="comic in comics">
                         <div class="media">
                             <div class="media-left media-middle">
-                                <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail }}" alt="Comic cover">
+                                <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail.path }}.{{ comic.thumbnail.extension }}" alt="Comic cover">
                             </div>
                             <div class="media-body">
                                 <h2 class="media-heading">{{ comic.title }}
                                     <span class="label label-danger">#{{ comic.issueNumber }}</span>
-                                    <span class="badge">${{ comic.price }}</span>
+                                    <span class="badge">${{ comic.prices[0].price }}</span>
                                 </h2>
                                 <p>{{ comic.description }}</p>
                             </div>
