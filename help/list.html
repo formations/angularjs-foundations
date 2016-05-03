@@ -1,0 +1,17 @@
+<ul class="media-list">
+    <li class="media">
+        <div class="media">
+            <div class="media-left media-middle">
+                <img class="media-object img-thumbnail" src="{{ comic.thumbnail }}" alt="Comic cover">
+            </div>
+            <div class="media-body">
+                <h2 class="media-heading">{{ comic.title }}
+                    <span class="label label-danger">#{{ comic.issueNumber }}</span>
+                    <span class="badge">${{ comic.price }}</span>
+                </h2>
+                <p>{{ comic.description }}</p>
+            </div>
+        </div>
+    </li>
+</ul>
+

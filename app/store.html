@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comics library</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container" ng-init="
+        comic = {
+            id: 21464,
+            title: 'Powers (2000)',
+            issueNumber: 18,
+            thumbnail: 'image/image_not_available.jpg',
+            price: 3.45,
+            description: 'Walker and Pilgrim investigate the death of a member of FG-3, a federally employed and corporate funded trio. Evidence leads Walker to believe a federal cover-up is taking place, and as the investigation spirals out of control both professionally and personally (Zora is killed during a confrontation with FG-3), Walker leaves the police force after exposing the cover-up on television.'
+        }">
+        <h1>Comics Library</h1>
+        <div class="row row-content">
+            <div class="col-xs-12">
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <img class="media-object img-thumbnail" alt="Comic cover"><!-- image should be set inside src attribute -->
+                    </div>
+                    <div class="media-body">
+                        <h2 class="media-heading"><!-- title should go here -->
+                            <span class="label label-danger">#<!-- issue should go here --></span>
+                            <span class="badge">$<!-- price should go here --></span>
+                        </h2>
+                        <p><!-- description should go here --></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="angular.min.js"></script>
+</body>
+</html>
