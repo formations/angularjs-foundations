@@ -47,7 +47,7 @@ module.exports = function (grunt) {
         files: [
           {
             cwd: 'app',
-            src: [ '**', '!script/**/*.js' ],
+            src: '**',
             dest: 'dist',
             expand: true
           },
@@ -167,7 +167,7 @@ module.exports = function (grunt) {
           base:{
                path: 'dist',
             options: {
-                index: 'index.html',
+                index: 'store.html',
                 maxAge: 300000
             }
           }
