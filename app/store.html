@@ -15,19 +15,19 @@
         <div class="row row-content" ng-controller="comicsController as comicsCtrl">
             <div class="col-xs-12">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation">
+                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(0)}">
                         <a role="tab">All</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(1)}">
                         <a role="tab">Powers</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(2)}">
                         <a role="tab">Chewbacca</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(3)}">
                         <a role="tab">Ultimate Spider-Man</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(4)}">
                         <a role="tab">Captain Marvel</a>
                     </li>
                 </ul>

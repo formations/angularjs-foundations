@@ -2,6 +2,10 @@
 
 angular.module('comicsApp', [])
     .controller('comicsController', function() {
+      this.tabIndex = 0;
+      this.isSelected = function(tabIndex) {
+        return this.tabIndex === tabIndex;
+      };
       this.comics = [{
         'id': 21464,
         'digitalId': 0,
