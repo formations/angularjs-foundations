@@ -33,7 +33,7 @@
                 </ul>
                 <div class="tab-content">
                     <ul class="media-list tab-pane fade in active">
-                        <li class="media" ng-repeat="comic in comicsCtrl.comics | filter:comicsCtrl.titleFilter">
+                        <li class="media" ng-repeat="comic in comicsCtrl.comics | filter:comicsCtrl.titleFilter | orderBy:'issueNumber' | orderBy: 'title'">
                             <div class="media">
                                 <div class="media-left media-middle">
                                     <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail.path }}.{{ comic.thumbnail.extension }}" alt="Comic cover">
