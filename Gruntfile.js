@@ -184,6 +184,7 @@ module.exports = function (grunt) {
     'jshint',
     'useminPrepare',
     'concat',
+    'uglify',
     'copy',
     'filerev',
     'usemin'
