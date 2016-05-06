@@ -3,11 +3,24 @@
 angular.module('comicsApp', [])
     .controller('comicsController', function() {
       this.tabIndex = 0;
+      this.titleFilter = '';
       this.isSelected = function(tabIndex) {
         return this.tabIndex === tabIndex;
       };
-            this.select = function(tabIndex) {
+      this.select = function(tabIndex) {
         this.tabIndex = tabIndex;
+        switch (tabIndex) {
+          case 0: this.titleFilter = '';
+              break;
+          case 1: this.titleFilter = 'Powers';
+              break;
+          case 2: this.titleFilter = 'Star Wars: Chewbacca';
+              break;
+          case 3: this.titleFilter = 'Ultimate Spider-Man';
+              break;
+          case 4: this.titleFilter = 'Captain Marvel';
+              break;
+        }
       };
       this.comics = [{
         'id': 21464,
