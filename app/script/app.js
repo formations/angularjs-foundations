@@ -1,28 +1,28 @@
 'use strict';
 
 angular.module('comicsApp', [])
-    .controller('comicsController', function() {
-      this.tabIndex = 0;
-      this.titleFilter = '';
-      this.isSelected = function(tabIndex) {
-        return this.tabIndex === tabIndex;
+    .controller('comicsController', ['$scope', function($scope) {
+      $scope.tabIndex = 0;
+      $scope.titleFilter = '';
+      $scope.isSelected = function(tabIndex) {
+        return $scope.tabIndex === tabIndex;
       };
-      this.select = function(tabIndex) {
-        this.tabIndex = tabIndex;
+      $scope.select = function(tabIndex) {
+        $scope.tabIndex = tabIndex;
         switch (tabIndex) {
-          case 0: this.titleFilter = '';
+          case 0: $scope.titleFilter = '';
               break;
-          case 1: this.titleFilter = 'Powers';
+          case 1: $scope.titleFilter = 'Powers';
               break;
-          case 2: this.titleFilter = 'Star Wars: Chewbacca';
+          case 2: $scope.titleFilter = 'Star Wars: Chewbacca';
               break;
-          case 3: this.titleFilter = 'Ultimate Spider-Man';
+          case 3: $scope.titleFilter = 'Ultimate Spider-Man';
               break;
-          case 4: this.titleFilter = 'Captain Marvel';
+          case 4: $scope.titleFilter = 'Captain Marvel';
               break;
         }
       };
-      this.comics = [{
+      $scope.comics = [{
         'id': 21464,
         'digitalId': 0,
         'title': 'Ultimate Spider-Man (Spanish Language Edition) (2000)',
@@ -2337,5 +2337,5 @@ angular.module('comicsApp', [])
           'returned': 0
         }
       }];
-    })
+    }])
 ;

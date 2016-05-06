@@ -12,28 +12,28 @@
 <body ng-app="comicsApp">
     <div class="container">
         <h1>Comics Library</h1>
-        <div class="row row-content" ng-controller="comicsController as comicsCtrl">
+        <div class="row row-content" ng-controller="comicsController">
             <div class="col-xs-12">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(0)}">
-                        <a role="tab" ng-click="comicsCtrl.select(0)">All</a>
+                    <li role="presentation" ng-class="{active:isSelected(0)}">
+                        <a role="tab" ng-click="select(0)">All</a>
                     </li>
-                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(1)}">
-                        <a role="tab" ng-click="comicsCtrl.select(1)">Powers</a>
+                    <li role="presentation" ng-class="{active:isSelected(1)}">
+                        <a role="tab" ng-click="select(1)">Powers</a>
                     </li>
-                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(2)}">
-                        <a role="tab" ng-click="comicsCtrl.select(2)">Chewbacca</a>
+                    <li role="presentation" ng-class="{active:isSelected(2)}">
+                        <a role="tab" ng-click="select(2)">Chewbacca</a>
                     </li>
-                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(3)}">
-                        <a role="tab" ng-click="comicsCtrl.select(3)">Ultimate Spider-Man</a>
+                    <li role="presentation" ng-class="{active:isSelected(3)}">
+                        <a role="tab" ng-click="select(3)">Ultimate Spider-Man</a>
                     </li>
-                    <li role="presentation" ng-class="{active:comicsCtrl.isSelected(4)}">
-                        <a role="tab" ng-click="comicsCtrl.select(4)">Captain Marvel</a>
+                    <li role="presentation" ng-class="{active:isSelected(4)}">
+                        <a role="tab" ng-click="select(4)">Captain Marvel</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <ul class="media-list tab-pane fade in active">
-                        <li class="media" ng-repeat="comic in comicsCtrl.comics | filter:comicsCtrl.titleFilter | orderBy:'issueNumber' | orderBy: 'title'">
+                        <li class="media" ng-repeat="comic in comics | filter:titleFilter | orderBy:'issueNumber' | orderBy: 'title'">
                             <div class="media">
                                 <div class="media-left media-middle">
                                     <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail.path }}.{{ comic.thumbnail.extension }}" alt="Comic cover">
