@@ -13,9 +13,10 @@
     <div class="container">
         <h1>Comics Library</h1>
         <ng-include src="'include/navbar.html'"></ng-include>
-        <ng-include src="'comics.html'"></ng-include>
+        <ng-view></ng-view>
     </div>
     <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="angular-route.min.js"></script>
 <!-- build:js script/main.js -->
     <script type="text/javascript" src="script/app.js"></script>
     <script type="text/javascript" src="script/service.js"></script>
