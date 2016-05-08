@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('comicsApp', ['ngRoute'])
+angular.module('comicsApp', ['ngRoute', 'ngResource'])
     .constant('baseURL', 'https://gateway.marvel.com:443')
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider

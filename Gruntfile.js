@@ -64,6 +64,12 @@ module.exports = function (grunt) {
             expand: true
           },
           {
+            cwd: 'bower_components/angular-resource',
+            src: 'angular-resource.min.js',
+            dest: 'dist',
+            expand: true
+          },
+          {
             cwd: 'bower_components/bootstrap/dist/css',
             src: 'bootstrap.min.css',
             dest: 'dist',

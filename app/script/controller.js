@@ -2,16 +2,16 @@
 
 angular.module('comicsApp')
     .controller('comicsController', ['$scope', 'comicsService', function($scope, comicsService) {
-      comicsService.getComics().then(
+      comicsService.getComics().get(
           function(response) {
-              $scope.comics = response.data.data.results;
+              $scope.comics = response.data.results;
           }
       );
     }])
     .controller('comicController', ['$scope', '$routeParams', 'comicsService', function($scope, $routeParams, comicsService) {
-      comicsService.getComic($routeParams.id).then(
+      comicsService.getComic($routeParams.id).get(
           function(response) {
-              $scope.comic = response.data.data.results[0];
+              $scope.comic = response.data.results[0];
           }
       );
     }])
