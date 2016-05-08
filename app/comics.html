@@ -1,39 +1,20 @@
         <div class="row row-content" ng-controller="comicsController">
             <div class="col-xs-12">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" ng-class="{active:isSelected(0)}">
-                        <a role="tab" ng-click="select(0)">All</a>
-                    </li>
-                    <li role="presentation" ng-class="{active:isSelected(1)}">
-                        <a role="tab" ng-click="select(1)">Powers</a>
-                    </li>
-                    <li role="presentation" ng-class="{active:isSelected(2)}">
-                        <a role="tab" ng-click="select(2)">Chewbacca</a>
-                    </li>
-                    <li role="presentation" ng-class="{active:isSelected(3)}">
-                        <a role="tab" ng-click="select(3)">Ultimate Spider-Man</a>
-                    </li>
-                    <li role="presentation" ng-class="{active:isSelected(4)}">
-                        <a role="tab" ng-click="select(4)">Captain Marvel</a>
+                <ul class="media-list tab-pane fade in active">
+                    <li class="media" ng-repeat="comic in comics | orderBy: 'title'">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail.path }}.{{ comic.thumbnail.extension }}" alt="Comic cover" style="max-width: 300px;">
+                            </div>
+                            <div class="media-body">
+                                <h2 class="media-heading"><a ng-href="#/comic/{{ comic.id }}">{{ comic.title }}</a>
+                                    <span class="label label-danger">#{{ comic.issueNumber }}</span>
+                                    <span class="badge" ng-if="comic.prices[0].price > 0">${{ comic.prices[0].price }}</span>
+                                </h2>
+                                <p>{{ comic.description }}</p>
+                            </div>
+                        </div>
                     </li>
                 </ul>
-                <div class="tab-content">
-                    <ul class="media-list tab-pane fade in active">
-                        <li class="media" ng-repeat="comic in comics | filter:titleFilter | orderBy:'issueNumber' | orderBy: 'title'">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <img class="media-object img-thumbnail" ng-src="{{ comic.thumbnail.path }}.{{ comic.thumbnail.extension }}" alt="Comic cover">
-                                </div>
-                                <div class="media-body">
-                                    <h2 class="media-heading">{{ comic.title }}
-                                        <span class="label label-danger">#{{ comic.issueNumber }}</span>
-                                        <span class="badge" ng-if="comic.prices[0].price > 0">${{ comic.prices[0].price }}</span>
-                                    </h2>
-                                    <p>{{ comic.description }}</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
