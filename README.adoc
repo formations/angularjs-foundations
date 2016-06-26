@@ -1,0 +1,713 @@
+= Travaux pratiques AngularJS
+Nicolas Frankel
+:doctype: article
+:encoding: utf-8
+:lang: fr
+:toc: macro
+:sectanchors:
+:numbered:
+:icons: font
+:experimental:
+:imagesdir: doc
+
+image::AngularJS-large.png[Angular JS logo]
+
+****
+Ce cours est mis à disposition selon les termes de la http://creativecommons.org/licenses/by-nc-sa/4.0/[Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International].
+
+image::https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[Licence Creative Commons, link="http://creativecommons.org/licenses/by-nc-sa/4.0/"]
+****
+
+toc::[]
+
+== Références
+
+En anglais : ::
+
+* https://angularjs.org/[Site officiel^] d'Angular JS
+* https://docs.angularjs.org/tutorial[Tutorial^] Angular JS
+* https://docs.angularjs.org/api[API^] Angular JS
+* https://jasmine.github.io/[Jasmine^]
+* https://karma-runner.github.io/1.0/index.html[Karma^]
+* http://www.protractortest.org/[Protractor^]
+
+En français : ::
+* http://www.angular-js.fr/[Tutoriels et articles AngularJS^]
+
+== Mise en place
+
+Les étapes nécessaires pour bien démarrer le travail sont les suivantes.
+
+=== Récupération des sources
+
+Pour disposer des sources, utiliser _git_ :
+
+[source, bash]
+----
+git clone https://github.com/formations/angular-comics.git
+----
+
+La branche de travail est `master`.
+
+=== Téléchargement des modules
+
+Le _workshop_ est un projet Angular JS basé sur :
+
+https://www.npmjs.com/[npm^]::
++
+Il faut tout d'abord télécharger les dépendances npm.
++
+[source, bash]
+----
+npm install
+----
++
+http://bower.io/[Bower^]::
++
+Puis, installer Bower.
++
+[source, bash]
+----
+sudo npm install -g bower
+----
++
+Une fois Bower installé, télécharger les dépendances web du projet en exécutant la commande suivante :
++
+[source, bash]
+----
+bower install
+----
++
+https://gruntjs.com/[Grunt^]::
++
+Enfin, installer la ligne de commande Grunt :
++
+[source, bash]
+----
+sudo npm install -g grunt-cli
+----
+
+=== Quelques conseils de développement
+
+En phase de développement, tout ne fonctionne pas toujours la première fois. L'utilisation des outils de développement du navigateur, par exemple "Chrome Dev Tools" ou l'_addon_ https://addons.mozilla.org/fr/firefox/addon/firebug/["Firebug"] pour Firefox, peuvent se révéler d'une aide précieuse et permettre de corriger les _bugs_.
+
+1. Consulter les erreurs dans la fenêtre de log
+1. Utiliser l'instruction `log.debug()` avec le message approprié
+1. Mettre des points d'arrêt dans le code JavaScript pour afficher les valeurs des variables :
++
+image::debugger.png[Débogueur JavaScript, align="center"]
++
+1. Utiliser la version non-minifiée d'Angular :
++
+[source, html]
+----
+<!-- Version minifiee -->
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+
+<!-- Version NON-minifiee -->
+<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+----
++
+1. Désactiver l'utilisation du cache, spécifiquement pour l'utilisation de `<ng-view>` :
++
+image::disable-cache.png[Désactivation du cache, align="center"]
+
+== Premiers pas
+
+Le travail consiste à développer une application pour visualiser des _comic books_.
+
+=== Transformation d'une page en application Angular
+
+La première étape consiste à transformer la page existante `app/store.html` en application Angular JS en utilisant la directive `ng-app`.
+
+=== Affichage de données simples
+
+Regarder l'utilisation de la directive `ng-init`. Utiliser les données du modèle pour afficher les informations suivantes dans la page :
+
+* Image (_thumbnail_)
+* Titre (_title_)
+* Numéro (_issueNumber_)
+* Prix (_price_)
+* Description (_description_)
+
+image::firststeps.png[Résultat attendu, align="center"]
+
+=== Affichage de données tabulées
+
+Pour les données::
+Remplacer le _snippet_ suivant :
++
+[source, json]
+----
+comic = {
+    id: 21464,
+    title: 'Powers (2000)',
+    issueNumber: 18,
+    thumbnail: 'image/image_not_available.jpg',
+    price: 3.45,
+    description: '...'
+}
+----
++
+Par le snippet suivant et le contenu du fichier `help/comics.json` :
++
+[source, json]
+----
+comics = <<contenu du fichier>>
+----
++
+Pour la page::
++
+Remplacer le _snippet_ suivant :
++
+[source, html]
+----
+<div class="media">
+    ...
+</div>
+----
++
+Par le contenu du fichier `help/list.html`.
+
+Maintenant, utiliser la directive `ng-repeat` pour itérer sur la collection de _comics_ et afficher les données de chacun d'entre eux.
+
+image::repeat.png[Résultat attendu, align="center"]
+
+Corriger le code Angular pour afficher correctement l'image et le prix.
+
+image::repeat-fixed.png[Résultat attendu, align="center"]
+
+=== Utilisation de structure conditionnelle
+
+La plupart des prix sont à 0. En utilisant la directive `ng-if`, n'afficher le prix que si celui-ci est positif.
+
+image::if.png[Résultat attendu, align="center"]
+
+=== Refactoring en script
+
+Jusqu'à maintenant, aucune JavaScript n'a été produit, tout est géré par Angular. Toutefois, la page souffre d'un poids important à cause de l'initialisation des données JSON.
+
+Il est temps d'appliquer le principe de séparation des responsabilités, avec d'une part la page HTML et d'autre par un fichier JavaScript.
+
+* Créer un fichier `app/script.js`
+* Y créer une application Angular `comicsApp` 
+* Y créer un contrôleur `comicsController` associé
+* Créer une propriété `comics` dans le contrôleur
+* L'initialiser avec le contenu de la variable `comics` de la directive `ng-init` existante
+* Supprimer la directive `ng-init` de la page
+* Ajouter la directive `ng-controller` dans la page en utilisant le nom adapté
++
+[IMPORTANT]
+====
+Dans la valeur de `ng-controller`, ne pas oublier d'utiliser `as` pour pouvoir référencer le contrôleur et ses propriétés dans la page.
+====
++
+* Adapter l'affichage des données pour être compatible avec la nouvelle structure
+* Référencer le fichier JavasScript dans la page HTML
+* Tester que rien n'a changé
+
+=== Ajout d'onglets
+
+Afin de continuer le _workshop_, il est nécessaire d'ajouter des onglets.
+
+Pour ce faire, remplacer le _snippet_ suivant :
+
+[source, html]
+----
+<ul class="media-list">
+    ...
+</ul>
+----
+
+par celui-ci :
+
+[source, html]
+----
+<div class="tab-content">
+    <ul class="media-list tab-pane fade in active">
+        ...
+    </ul>
+</div>
+----
+
+Puis, insérer le contenu du fichier `help/tabs.html` juste avant.
+
+image::tabs.png[Résultat attendu, align="center"]
+
+=== Utilisation de classe CSS conditionnelle
+
+Attribuer à l'onglet la classe CSS _active_ permet de l'afficher comme l'onglet sélectionné (la classe supprime la bordure horizontale du bas).
+
+* Créer une propriété `tabIndex` dont la valeur initiale est `0` dans le contrôleur
+* Toujours dans le contrôleur, créer une fonction `isSelected()` :
+** La fonctione accepte en unique paramètre un index
+** La fonction retourne un booléen qui vérifie l'égalité entre le paramètre et `tabIndex`
+* Pour chaque onglet, utiliser la directive `ng-class` pour attribuer la classe CCS _active_ si l'onglet courant est sélectionné.
+
+=== Utilisation du clic Angular
+
+L'objectif de cette section est de faire en sorte que lorsque l'utilisateur clique sur un onglet, ce dernier apparaisse sélectionné. Pour ce faire :
+
+* Créer une méthode `select()`
+* Utiliser la directive `ng-click` qui utilise cette dernière pour changer la propriété `tabIndex` 
+
+=== Filtre par onglet
+
+L'objectif de cette section est d'afficher uniquement les _comics_ pertinents pour chaque onglet.
+
+Par exemple, lorsque l'onglet "Powers" est sélectionné, seuls les _comics_ dont un attribut possède la valeur (exacte) `"Powers (2000)"` sont affichés. Sur le premier onglet, tous les _comics_ sont affichés.
+
+Pour ce faire, créer une nouvelle propriété du contrôleur nommée `titleFilter` et l'utiliser dans la directive `ng-repeat`.
+
+image::filter.png[Résultat attendu, align="center"]
+
+=== Ordonnancement
+
+A ce point, les _comics_ sont affichés par ordre de déclaration dans le fichier JSON. Il est préférable de les afficher par leur numérotation dans la série.
+
+Utiliser l'attribut `issueNumber` pour effectuer le tri.
+
+image::order.png[Résultat attendu, align="center"]
+
+[WARNING]
+====
+Vérifier les _comics_ affichés sur le premier onglet. Il est nécessaire de trier d'abord par série, *puis* par numéro.
+====
+
+=== Utilisation d'un _scope_ explicite
+
+L'utilisation des propriétés du contrôleur rend malaisée son utilisation au niveau de la page HTML.
+
+Refactorer le code du contrôleur *et* de la page pour utiliser un _scope_ explicite.
+
+Vérifier que rien l'application se comporte de manière identique.
+
+=== Implémentation du MVC
+
+Actuellement, le contrôleur source les données par l'intermédiaire de la variable `$scope.comics`. Cette approche est contraire au paradigme Modèle Vue Contrôleur qui impose une stricte séparation des responsabilités. Pour implémenter un MVC correct, nous allons (enfin) créer un service Angular.
+
+* Créer un nouveau script `script/service.js`
+* Le référencer dans la page HTML
+* Y créer un nouveau service angular `comicsService`
+* Rattacher ce service à l'application Angular `comicsApp`
++
+[WARNING]
+====
+Attention à la syntaxe de la fonction `module` qui en fonction du nombre d'arguments crée un nouveau module *ou* référence un module existant
+====
++
+* Dans ce service :
+** Créer une propriété `comics` qui contient la liste des comics
+** Créer une fonction `getComics()` qui renvoit la valeur de la variable comics
+* Modifier le contrôleur :
+** Injecter le nouveau service `comicsService`
+** Modifier la variable `$scope.comics` pour appeler la méthode `getComics()` du service
+
+=== Finalisation de la séparation des responsabilités
+
+Une fois l'étape précédente effectuée, il reste le code du contrôleur dans le fichier `script/app.js`
+
+A l'instar de l'étape précédente, déplacer ce code dans un fichier dédié `script/controller.js` afin d'obtenir le découpage suivant par fichier :
+
+[width="100%",options="header"]
+|====================
+|  Fichier                | Responsabilité 
+|  `script/app.js`        | Création du module Angular  
+|  `script/services.js`   | Gestion des services Angular
+|  `script/controller.js` | Gestion des contrôleurs Angular
+|====================
+
+== Industrialisation du développement
+
+Les navigateurs actuels implémentent le https://en.wikipedia.org/wiki/Same-origin_policy[Same-origin policy] afin d'éviter de charger des ressources provenant de domaines non autorisés, par exemple que la page servie par le domaine _mondomaine.com_ charge dynamiquement une ressource depuis le domaine _hacker.com_.
+
+Comme les sections suivantes nécessitent le chargement de plusieurs ressources de script et que le protocole `file://` ne permet d'en charger plusieurs qu'en désactivant la sécurité du navigateur, il est nécessaire de mettre en place un serveur HTTP.
+
+Le lancement du serveur HTTP et le déploiement de l'application dans ce dernier nécessitent une automatisation des tâches. Dans le _workshop_, cette dernière est assurée par Grunt. Prendre quelques minutes pour lire le fichier.
+
+[WARNING]
+====
+Grunt est également configuré pour vérifier la bonne qualité du code JavaScript. Corriger les erreurs / avertissements signalés avant de continuer.
+====
+
+=== Minification du JS
+
+Afin que la charge de téléchargement initial soit la moins lourde possible - les appels subséquents iront se sourcer directement depuis le cache local, il est une bonne pratique de minifier les fichiers de scripts (et de styles).
+
+Grunt est déjà configuré pour cela. Il est toutefois nécessaire d'encadrer ces déclarations par un commentaire qui sera traité par Grunt lors de la construction.
+
+[source,html]
+----
+<!-- build:js scripts/main.js -->
+    <script type="text/javascript" src="script/app.js"></script>
+    <script type="text/javascript" src="script/service.js"></script>
+    <script type="text/javascript" src="script/controller.js"></script>
+<!-- endbuild -->
+----
+
+=== Mise en place du serveur HTTP
+
+Pour lancer le serveur HTTP, il est uniquement nécessaire de lancer cette commande :
+
+[source, bash]
+----
+grunt serve
+----
+
+Le script Grunt existant est déjà configuré de manière adéquate. L'exécution de la commande va créer un répertoire `dist` à la racine du projet, démarrer un serveur HTTP embarqué accessible sur le port 9000 puis ouvrir un navigateur à cette adresse.
+
+Vérifier que rien l'application se comporte de manière identique lorsqu'elle est servie par le serveur HTTP.
+
+=== Utilisation des includes
+
+Afin de pouvoir maintenir plus facilement l'application, découper la page en fragments :
+
+* Renommer le fichier `store.html` en `index.html`
+* Dans ce dernier :
+** Déplacer le contenu du `div` qui comporte la classe `row` dans un fichier `comics.html`
+** Utiliser la directive `ng-include` pour inclure celui-ci dans le fichier `index.html`
+* Modifier le fichier `Gruntfile.js` pour que le fichier `index.html` soit la page présentée par défaut (_cf._ ligne 141)
+
+Vérifier que rien l'application se comporte de manière identique à précédemment.
+
+=== Préparation de la navigation
+
+Afin de préparer la suite du développement, inclure la barre de navigation juste au-dessous de la balise `<h1>`. Le fichier concerné est `navbar.html` disponible dans le dossier `include`.
+
+image::navbar.png[Résultat attendu, align="center"]
+
+=== Implémentation de la barre de navigation
+
+Implémenter chaque lien de la barre de navigation via une route Angular. La table de routage est la suivante :
+
+[width="100%",options="header"]
+|====================
+|  Lien     | Fichier 
+|  Home     | `view/home.html` 
+|  About us | `view/about.html`
+|  Comics   | `comics.html`
+|====================
+
+[WARNING]
+====
+Ne pas oublier :
+
+* D'injecter la dépendance `ngRoute` lors de l'initialisation de l'application
+* D'inclure le script `angular-route(.min).js` dans la page d'index
+* D'ajouter le script au build Grunt :
++
+[source,json]
+----
+          {
+            cwd: 'bower_components/angular-route',
+            src: 'angular-route.min.js',
+            dest: 'dist',
+            expand: true
+          },
+----
+====
+
+=== Affichage détaillé d'un _comic_
+
+Lorsque l'utilisateur clique sur le titre d'un _comic_, afficher le descriptif détaillé de celui-ci à l'aide de la vue `view/comic.html` et de la directive `ng-route` :
+
+* Ajouter un lien sur le titre du _comic_ dans la liste. Utiliser comme paramètre l'attribut `id` du _comic_
+* Ajouter au service `comicService` une fonction `getComic()` qui retourne le _comic_ dont l'id est passé en paramètre
+* Ajouter un contrôleur `comicController` qui appelle cette nouvelle fonction. Utiliser le service `$routeParams` 
+* Ajouter une route utilisant `id` et qui pointe vers ce nouveau contrôleur
+
+image::navbar.png[Résultat attendu, align="center"]
+
+=== Utilisation du titre et du numéro pour la navigation
+
+A présent, changer le code pour utiliser `title` et `issueNumber` à la place de `id`. Cette modification permet à un utilisateur d'afficher directement le détail d'un _comic_ dont il connait le titre et le numéro.
+
+Vérifier que rien l'application se comporte de manière identique.
+
+== Utilisation de l'API Marvel
+
+Le but de cette section est de supprimer du service les données "en dur" et d'utiliser l'API offerte par Marvel.com.
+
+=== Création et configuration de compte
+
+1. La première étape consiste à créer un compte développeur sur https://secure.marvel.com/user/register[developer.marvel.com^].
+2. Puis, récupérer la https://developer.marvel.com/account[clé d'API publique^].
+3. Ne pas oublier de mettre à jour la liste des site habilités avec `localhost`.
+
+image::marvel-account.png[Marvel Comics developer account^]
+
+=== Nettoyage du code
+
+* Dans `comicsController`, supprimer le code relatif aux onglets
+* Dans `comics.html`, supprimer les onglets eux-mêmes - y compris `<div class="tab-content">`
+* Dans `service.js`, supprimer la variable `comics` et sa valeur
+* Revenir à l'utilisation de l'attribut `id` pour afficher le détail d'un _comic_
+
+=== Appel de l'API via $http
+
+* Créer une constante Angular pour contenir la base de l'URL de l'API -  https://gateway.marvel.com:443
+* Injecter cette constante dans le service `comicsService`
+* Créer un nouveau service `configService` qui renvoit la valeur de la clé d'API
+* Injecter ce service dans le service `comicsService`
+* Modifier le service `comicsService` en remplaçant la variable `comics` par l'utilisation judicieuse de la directive `$http` pour charger les données depuis le serveur Marvel :
++
+[NOTE]
+====
+La documentation complète de l'API Marvel est disponible https://developer.marvel.com/docs[en-ligne^].
+====
++
+** La liste des _comics_ est accessible via https://developer.marvel.com/docs#!/public/getComicsCollection_get_6[/v1/public/comics^], sans oublier d'utiliser le paramètre de requête `apikey` (et le paramètre `limit` si l'on veut plus que 20 éléments)
+** Le détail d'un _comic_ est accessible via https://developer.marvel.com/docs#!/public/getComicIndividual_get_7[/v1/public/comics/{id}^], sans oublier d'utiliser le paramètre de requête `apikey`
+* Modifer le code contrôleur pour valorise le `$scope` avec la liste des _comics_ (ou le détail de l'un d'entre eux)
+
+image::marvel.png[Résultat attendu, align="center"]
+
+=== Appel de l'API via $resource
+
+Remplacer l'utilisation de `$http` par `$resource`.
+
+[WARNING]
+====
+Ne pas oublier :
+
+* D'injecter la dépendance `ngResource` lors de l'initialisation de l'application
+* D'inclure le script `angular-resource(.min).js` dans la page d'index
+* D'ajouter le script au build Grunt :
++
+[source,json]
+----
+          {
+            cwd: 'bower_components/angular-resource',
+            src: 'angular-resource.min.js',
+            dest: 'dist',
+            expand: true
+          },
+----
+====
+
+== Test du code
+
+L'objectif de cette section est de s'assurer que le code répond bien aux exigences.
+
+Dans le cadre de ce _workshop_ :
+
+* https://karma-runner.github.io/1.0/index.html[Karma^] est l'exécuteur de tests unitaires
+* http://www.protractortest.org/[Protractor^] est l'exécuteur de tests _end-to-end_
+* https://jasmine.github.io/[Jasmine^] est le _framework_ de test
+
+Le _build_ est déjà configuré pour le lancement des tests. Il suffit de créer ces derniers :
+
+* les tests unitaires dans le dossier `test/unit`
+* les tests _end-to-end_ dans `test/e2e`
+
+La commande à lancer est :
+
+[source, bash]
+----
+grunt test
+----
+
+Cette commande :
+
+* exécute les tests unitaires
+* construit l'application
+* lance le serveur web local
+* exécute les tests _end-to-end_
+
+=== Tester que le contrôleur alimente les _comics_
+
+* Créer un fichier `test/unit/controller.spec.js`
+* Y créer une suite `comicsController` via la fonction `describe()`
+* Dans celle-ci, initialiser le module `comicsApp` avant chaque spécification
++
+[source,javascript]
+----
+beforeEach(module('comicsApp'));
+----
++
+* Puis, créer une spécification pour vérifier que l'interaction entre le contrôleur et le service alimente la variable `comics` du _scope_
+** Injecter les ressources nécessaires pour le test
+** Créer un objet _scope_ vide `{}`
+** Via `$httpBackend`, retourner une réponse comportant des _comics_
+*** Pour faire simple, l'expression régulière identifie n'importe quelle chaîne de caractères `new RegExp('.*')`
+*** L'entité JSON comporte un tableau d'objets, chacun avec des paires nom-valeur (par exemple `id`, `title` et `issueNumber`)
++
+[source,json]
+----
+{
+    "data": {
+        "results": [
+            {
+                "id": 42882, 
+                "issueNumber": 6, 
+                "title": "Lorna the Jungle Girl (1954) #6", 
+            }, 
+            {
+               "id": 43092, 
+               "issueNumber": 7, 
+               "title": "Brilliant (2011) #7", 
+            } 
+        ] 
+    }
+}
+----
++
+** Créer le contrôleur `comicsController` en utilisant la directive `$controller` et en passant les paramètres nécessaires
+** Ne pas oublier de forcer la résolution via `$httpBackend.flush`
+** Vérifier que le _scope_ est bien rempli avec les _comics_ de la réponse _mock_
+
+Pour n'exécuter *que* les tests unitaires :
+
+[source, bash]
+----
+grunt karma
+----
+
+=== Tester l'application déployée
+
+* Créer un fichier `test/e2e/spec.js`
+* Y créer une suite `comicsApp` via la fonction `describe()`
+
+==== Tester l'écran d'accueil
+
+* Naviguer sur l'écran d'accueil via l'objet `browser`
+* Vérifier qu'il y ait une unique balise `<img>` sur la page
+
+==== Tester l'écran A propos
+
+* Naviguer sur l'écran A propos via l'objet `browser`
+* Vérifier qu'il y ait une unique balise `<address>` sur la page
+* Vérifier également la présence d'une unique balise `<blockquote>`
+
+==== Tester l'écran de liste de _comics_
+
+* Naviguer sur l'écran de liste de _comics_ via l'objet `browser`
++
+[TIP]
+====
+Ne pas oublier d'attendre la fin du chargement de la page avec `browser.waitForAngular()`
+====
++
+* Vérifier qu'il y ait bien 50 éléments, par exemple `li.media`
+
+==== Tester l'écran de détail d'un _comic_
+
+* Cliquer sur le premier lien de la liste des _comics_
+* Attendre la fin du chargement de la page
+* Vérifier qu'il y a bien 3 listes qui ont la classe CSS `list-group`
+
+== Compatibilité mobile
+
+L'objectif de cette section est de garantir que l'application s'affiche de manière adaptée sur mobile.
+
+image:desktop-display.png[About page displayed on desktop]
+image:mobile-display.png[About page displayed on mobile]
+
+=== Tester l'affichage sur mobile
+
+anchor:test-mobile-display[]Dans Chrome, afficher les outils de développeur (kbd:[&#8997;+&#8984;+I]). Dans la _frame_ qui s'affiche, localiser le bouton de changement d'appareil (kbd:[&#8984;+&#8679;+M]).
+
+image:toggle-device-toolbar.png[Toggle device toolbar button, role="center"]
+
+Cliquer sur le bouton mentionné ci-dessus : la barre de changement d'appareils s'affiche en haut. Il est maintenant possible de changer d'appareil dans la liste déroulante.
+
+image:device-toolbar.png[Device toolbar, role="center"]
+
+Si l'application a été correctement développée, l'affichage doit s'adapter à la taille de l'appareil pour en faciliter la lecture.
+
+=== Rendre la barre de navigation _responsive_
+
+Bootstrap offre une barre de navigation _responsive_ par défaut. L'implémentation HTML de la barre actuelle est incorrecte. Corriger celle-ci pour la rendre _responsive_ à l'aide de https://getbootstrap.com/components/#navbar:[la documentation^].
+
+Une fois la correction effectuée, vérifier que la barre affiche les éléments de manière verticale sur les dispositifs de très petite taille (c'est-à-dire les téléphones) en utilisant la méthode décrite au <<test-mobile-display, paragraphe précédent>>.
+
+image:vertical-stacked-navbar-items.png[Items stacked vertically on the navbar, role="center"]
+
+Puis, déplacer le titre de son emplacement initial vers l'emplacement d'en-tête de la barre de navigation (`navbar-header`) à l'aide de la link:https://getbootstrap.com/components/#navbar-default[documentation^]. Le résultat est le suivant :
+
+image:title-moved-to-navbar.png[Title move to navbar, role="center"]
+
+Enfin, ajouter une marge au-dessus de la barre de navigation pour rendre l'écran plus "aéré".
+
+=== Rendre la page de détail _responsive_
+
+Un écran de bureau disposé en mode paysage permet d'afficher l'intégralité des information horizontalement. Au contraire, les téléphones sont souvent consultés en mode portrait. L'affichage doit donc s'adapter à cette contrainte pour disposer les informations.
+
+Il s'agit de modifier la page de détail pour obtenir le résultat suivant lorsqu'elle est consultée sur un téléphone :
+
+image:responsive-detail-page-phone.png[Comics detail page shown on phone, role="center"]
+
+Et sur tablette :
+
+image:responsive-detail-page-tablet.png[Comics detail page shown on tablet, role="center"]
+
+[NOTE]
+====
+L'image n'est pas coupée, il s'agit uniquement de pouvoir afficher la page dans cette documentation. 
+====
+
+Voici les étapes à suivre :
+
+Affichage des colonnes d'information:: En s'aidant de la documentation sur les link:https://getbootstrap.com/css/#grid-options[options^] du système de grille, modifier l'affichage des colonnes afin qu'elles s'affichent l'une en dessous de l'autre sur les téléphones uniquement. Dans le reste des cas, elles continuent à s'afficher l'une à côté de l'autre.
+Adapter l'affichage de l'image:: L'image actuelle est positionnée sur les 4 premières colonnes de gauche quel que soit le dispositif d'affichage. Modifier les classes ainsi :
+* Sur les téléphones, l'image utilise la largeur entière de la grille
+* Sur les tablettes, elle occupe 6 colonnes et est centrée
+* Sur les dispositifs d'affichage plus grands, elle occupe seulement 4 colonnes et est également centrée
+Séparer le texte de l'image:: Disposer le titre sur une ligne dédiée et l'image sur une autre
+
+=== Rendre la page de liste _responsive_
+
+En ce qui concerne la page de liste, les étapes à réaliser sont les suivantes :
+
+Médias:: Les médias (`media-list`) ne sont *pas* _responsives_, il est donc nécessaire de transformer la structure actuelle en ligne de grille standard.
+Séparation du texte et de l'image::  Pour les téléphones et les tablettes, afficher le texte au-dessus de l'image. Pour les autres appareils, afficher la partie textuelle sur les 8 premières colonnes, l'image sur les 4 autres. 
++
+[WARNING]
+====
+Le titre et la description doivent être affichés dans des blocs séparés.
+====
++
+_Responsive_ image:: Adapter la taille de l'image à la largeur de l'écran en utilisant link:https://getbootstrap.com/css/#images-responsive[la classe CSS adaptée^].
+
+Le résultat attendu est le suivant :
+
+image:responsive-list-page-phone.png[Comics list page shown on phone, role="center"]
+
+image:responsive-list-page-tablet.png[Comics list page shown on tablet, role="center"]
+
+=== La touche finale
+
+Afficher l'intégralité des éléments de menu occupe une large partie de l'écran sur les appareils de dimension réduite. Dans ce cas, il est d'usage d'afficher un bouton "hamburger" qui permet de déplier/plier les éléments du menu.
+
+Bootstrap offre les fonctionnalités nécessaires, il suffit de les assembler:
+
+1. Tout d'abord, ajouter un bouton situé à l'extrémité droite de la link:https://getbootstrap.com/components/#navbar[barre de navigation^].
+1. Ajouter l'icône de hamburger. Pour cela, s'aider de la "librairie" link:https://getbootstrap.com/components/#glyphicons[_Glyphicons_^], également partie de la distribution de Bootstrap (les icônes sont déjà intégrés via la feuille de style `bootstrap.css`).
+1. Afin de permettre le comportement dynamique, référencer le script `collapse.js` qui fait partie de la distribution de Bootstrap.
+1. Puis, ajouter le comportement au bouton à l'aide de link:https://getbootstrap.com/javascript/#collapse[la documentation^] du composant _collapse_.
++
+[NOTE]
+====
+Tout se fait de manière déclarative, il n'y a pas besoin d'écrire du code JavaScript.
+====
++
+1. Enfin, masquer le bouton lorsque les éléments de menu sont affichés horizontalement.
+
+image:hamburger-menu-phone.png[Menu shown on phone, role="center"]
+
+image:hamburger-menu-tablet.png[Menu shown on tablet, role="center"]
+
+== Aller plus loin
+
+Quand vous avez fini le _workshop_, ce n'est pas fini. Il y a toujours des choses à faire, voici quelques possibilités :
+
+1. Utiliser TypeScript
+** Migrer le code en TypeScript
+** Intégrer un transpileur TypeScript au sein du build
+1. Utiliser EcmaScript 6
+** Rendre le code compatible EcmaScript 6
+** Intégrer un transpileur EcmaScript 6, par exemple https://babeljs.io/[Babel^] au sein du build
+1. Remplacer les onglets par une vraie section de recherche, incluant :
+** le nombre d'entités retournées sous forme de liste déroulante
+** un champ de texte pour la recherche, par exemple "Spider*"
+** etc.
