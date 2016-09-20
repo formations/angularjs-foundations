@@ -13,19 +13,19 @@
     </div>
 </div>
 <div class="row row-content" ng-controller="comicController">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">Character(s) <span class="badge">{{ comic.characters.available }}</span>
             <li class="list-group-item" ng-repeat="character in comic.characters.items">{{ character.name }}</li>
         </ul>
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">Stories(s) <span class="badge">{{ comic.stories.available }}</span>
             <li class="list-group-item" ng-repeat="story in comic.stories.items">{{ story.name }}</li>
         </ul>
     </div>
-    <div class="col-xs-4">
+    <div class="col-sm-4">
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">Creator(s) <span class="badge">{{ comic.creators.available }}</span>
             <li class="list-group-item" ng-repeat="creator in comic.creators.items">{{ creator.role }}: {{ creator.name }}</li>
