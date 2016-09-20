@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Comics library</title>
     <link rel="stylesheet" href="bootstrap.min.css" />
+<!-- build:css style/main.css -->
+    <link rel="stylesheet" href="style/style.css" />
+<!-- endbuild -->
 </head>
 
 <body ng-app="comicsApp">
     <div class="container">
-        <h1>Comics Library</h1>
         <ng-include src="'include/navbar.html'"></ng-include>
         <ng-view></ng-view>
     </div>

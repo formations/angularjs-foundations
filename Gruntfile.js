@@ -74,6 +74,18 @@ module.exports = function (grunt) {
             src: 'bootstrap.min.css',
             dest: 'dist',
             expand: true
+          },
+          {
+            cwd: 'bower_components/bootstrap/js',
+            src: 'collapse.js',
+            dest: 'dist/script',
+            expand: true
+          },
+          {
+            cwd: 'bower_components/jquery/dist',
+            src: 'jquery.min.js',
+            dest: 'dist',
+            expand: true
           }
         ]
       },
@@ -197,6 +209,7 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concat',
     'uglify',
+    'cssmin',
     'copy',
     'filerev',
     'usemin'
