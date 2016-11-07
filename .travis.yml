@@ -4,4 +4,4 @@ node_js: '7.0'
 branches:
   only: solution
 
-script: grunt
+script: grunt karma
