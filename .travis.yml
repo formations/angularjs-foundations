@@ -9,4 +9,9 @@ install:
   - npm install
   - bower install
 
+cache:
+  directories:
+    - node_modules
+    - bower_components
+
 script: grunt karma
