@@ -14,4 +14,13 @@ cache:
     - node_modules
     - bower_components
 
-script: grunt karma
+script: grunt karma distribution
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: $GITHUB_API_TOKEN
+  file: angular-comics-distribution.zip
+  on:
+    branch: continuousintegration
