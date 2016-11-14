@@ -4,3 +4,4 @@ bower_components
 dist
 app/script/config.js
 *.zip
+common
