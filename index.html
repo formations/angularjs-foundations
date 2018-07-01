@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Nicolas Frankel">
+<title>Travaux pratiques AngularJS</title>
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Travaux pratiques AngularJS</h1>
+<div class="details">
+<span id="author" class="author">Nicolas Frankel</span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="doc/AngularJS-large.png" alt="Angular JS logo">
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image left"><a class="image" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Licence Creative Commons"></a></span></p>
+</div>
+<div class="paragraph">
+<p>Ce document est mis à disposition selon les termes de la <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International</a>.</p>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_références">1. Références</a></li>
+<li><a href="#_mise_en_place">2. Mise en place</a>
+<ul class="sectlevel2">
+<li><a href="#_récupération_des_sources">2.1. Récupération des sources</a></li>
+<li><a href="#_téléchargement_des_modules">2.2. Téléchargement des modules</a></li>
+<li><a href="#_quelques_conseils_de_développement">2.3. Quelques conseils de développement</a></li>
+</ul>
+</li>
+<li><a href="#_premiers_pas">3. Premiers pas</a>
+<ul class="sectlevel2">
+<li><a href="#_transformation_d_une_page_en_application_angular">3.1. Transformation d&#8217;une page en application Angular</a></li>
+<li><a href="#_affichage_de_données_simples">3.2. Affichage de données simples</a></li>
+<li><a href="#_affichage_de_données_tabulées">3.3. Affichage de données tabulées</a></li>
+<li><a href="#_utilisation_de_structure_conditionnelle">3.4. Utilisation de structure conditionnelle</a></li>
+<li><a href="#_refactoring_en_script">3.5. Refactoring en script</a></li>
+<li><a href="#_ajout_d_onglets">3.6. Ajout d&#8217;onglets</a></li>
+<li><a href="#_utilisation_de_classe_css_conditionnelle">3.7. Utilisation de classe CSS conditionnelle</a></li>
+<li><a href="#_utilisation_du_clic_angular">3.8. Utilisation du clic Angular</a></li>
+<li><a href="#_filtre_par_onglet">3.9. Filtre par onglet</a></li>
+<li><a href="#_ordonnancement">3.10. Ordonnancement</a></li>
+<li><a href="#_utilisation_d_un_em_scope_em_explicite">3.11. Utilisation d&#8217;un <em>scope</em> explicite</a></li>
+<li><a href="#_implémentation_du_mvc">3.12. Implémentation du MVC</a></li>
+<li><a href="#_finalisation_de_la_séparation_des_responsabilités">3.13. Finalisation de la séparation des responsabilités</a></li>
+</ul>
+</li>
+<li><a href="#_industrialisation_du_développement">4. Industrialisation du développement</a>
+<ul class="sectlevel2">
+<li><a href="#_minification_du_js">4.1. Minification du JS</a></li>
+<li><a href="#_mise_en_place_du_serveur_http">4.2. Mise en place du serveur HTTP</a></li>
+<li><a href="#_utilisation_des_includes">4.3. Utilisation des includes</a></li>
+<li><a href="#_préparation_de_la_navigation">4.4. Préparation de la navigation</a></li>
+<li><a href="#_implémentation_de_la_barre_de_navigation">4.5. Implémentation de la barre de navigation</a></li>
+<li><a href="#_affichage_détaillé_d_un_em_comic_em">4.6. Affichage détaillé d&#8217;un <em>comic</em></a></li>
+<li><a href="#_utilisation_du_titre_et_du_numéro_pour_la_navigation">4.7. Utilisation du titre et du numéro pour la navigation</a></li>
+</ul>
+</li>
+<li><a href="#_utilisation_de_l_api_marvel">5. Utilisation de l&#8217;API Marvel</a>
+<ul class="sectlevel2">
+<li><a href="#_création_et_configuration_de_compte">5.1. Création et configuration de compte</a></li>
+<li><a href="#_nettoyage_du_code">5.2. Nettoyage du code</a></li>
+<li><a href="#_appel_de_l_api_via_http">5.3. Appel de l&#8217;API via $http</a></li>
+<li><a href="#_appel_de_l_api_via_resource">5.4. Appel de l&#8217;API via $resource</a></li>
+</ul>
+</li>
+<li><a href="#_test_du_code">6. Test du code</a>
+<ul class="sectlevel2">
+<li><a href="#_tester_que_le_contrôleur_alimente_les_em_comics_em">6.1. Tester que le contrôleur alimente les <em>comics</em></a></li>
+<li><a href="#_tester_l_application_déployée">6.2. Tester l&#8217;application déployée</a></li>
+</ul>
+</li>
+<li><a href="#_compatibilité_mobile">7. Compatibilité mobile</a>
+<ul class="sectlevel2">
+<li><a href="#_tester_l_affichage_sur_mobile">7.1. Tester l&#8217;affichage sur mobile</a></li>
+<li><a href="#_rendre_la_barre_de_navigation_em_responsive_em">7.2. Rendre la barre de navigation <em>responsive</em></a></li>
+<li><a href="#_rendre_la_page_de_détail_em_responsive_em">7.3. Rendre la page de détail <em>responsive</em></a></li>
+<li><a href="#_rendre_la_page_de_liste_em_responsive_em">7.4. Rendre la page de liste <em>responsive</em></a></li>
+<li><a href="#_la_touche_finale">7.5. La touche finale</a></li>
+</ul>
+</li>
+<li><a href="#_aller_plus_loin">8. Aller plus loin</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_références"><a class="anchor" href="#_références"></a>1. Références</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">En anglais : </dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://angularjs.org/" target="_blank">Site officiel</a> d&#8217;Angular JS</p>
+</li>
+<li>
+<p><a href="https://docs.angularjs.org/tutorial" target="_blank">Tutorial</a> Angular JS</p>
+</li>
+<li>
+<p><a href="https://docs.angularjs.org/api" target="_blank">API</a> Angular JS</p>
+</li>
+<li>
+<p><a href="https://jasmine.github.io/" target="_blank">Jasmine</a></p>
+</li>
+<li>
+<p><a href="https://karma-runner.github.io/1.0/index.html" target="_blank">Karma</a></p>
+</li>
+<li>
+<p><a href="http://www.protractortest.org/" target="_blank">Protractor</a></p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">En français : </dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.angular-js.fr/" target="_blank">Tutoriels et articles AngularJS</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mise_en_place"><a class="anchor" href="#_mise_en_place"></a>2. Mise en place</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les étapes nécessaires pour bien démarrer le travail sont les suivantes.</p>
+</div>
+<div class="sect2">
+<h3 id="_récupération_des_sources"><a class="anchor" href="#_récupération_des_sources"></a>2.1. Récupération des sources</h3>
+<div class="paragraph">
+<p>Pour disposer des sources, utiliser <em>git</em> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/formations/angular-comics.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La branche de travail est <code>master</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_téléchargement_des_modules"><a class="anchor" href="#_téléchargement_des_modules"></a>2.2. Téléchargement des modules</h3>
+<div class="paragraph">
+<p>Le <em>workshop</em> est un projet Angular JS basé sur :</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="https://www.npmjs.com/" target="_blank">npm</a></dt>
+<dd>
+<div class="paragraph">
+<p>Il faut tout d&#8217;abord télécharger les dépendances npm.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">npm install</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><a href="http://bower.io/" target="_blank">Bower</a></dt>
+<dd>
+<div class="paragraph">
+<p>Puis, installer Bower.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">sudo npm install -g bower</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Une fois Bower installé, télécharger les dépendances web du projet en exécutant la commande suivante :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">bower install</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><a href="https://gruntjs.com/" target="_blank">Grunt</a></dt>
+<dd>
+<div class="paragraph">
+<p>Enfin, installer la ligne de commande Grunt :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">sudo npm install -g grunt-cli</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quelques_conseils_de_développement"><a class="anchor" href="#_quelques_conseils_de_développement"></a>2.3. Quelques conseils de développement</h3>
+<div class="paragraph">
+<p>En phase de développement, tout ne fonctionne pas toujours la première fois. L&#8217;utilisation des outils de développement du navigateur, par exemple "Chrome Dev Tools" ou l'<em>addon</em> <a href="https://addons.mozilla.org/fr/firefox/addon/firebug/">"Firebug"</a> pour Firefox, peuvent se révéler d&#8217;une aide précieuse et permettre de corriger les <em>bugs</em>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Consulter les erreurs dans la fenêtre de log</p>
+</li>
+<li>
+<p>Utiliser l&#8217;instruction <code>log.debug()</code> avec le message approprié</p>
+</li>
+<li>
+<p>Mettre des points d&#8217;arrêt dans le code JavaScript pour afficher les valeurs des variables :</p>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/debugger.png" alt="Débogueur JavaScript">
+</div>
+</div>
+</li>
+<li>
+<p>Utiliser la version non-minifiée d&#8217;Angular :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!-- Version minifiee --&gt;
+&lt;script type="text/javascript" src="../bower_components/angular/angular.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Version NON-minifiee --&gt;
+&lt;script type="text/javascript" src="../bower_components/angular/angular.js"&gt;&lt;/script&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Désactiver l&#8217;utilisation du cache, spécifiquement pour l&#8217;utilisation de <code>&lt;ng-view&gt;</code> :</p>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/disable-cache.png" alt="Désactivation du cache">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_premiers_pas"><a class="anchor" href="#_premiers_pas"></a>3. Premiers pas</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le travail consiste à développer une application pour visualiser des <em>comic books</em>.</p>
+</div>
+<div class="sect2">
+<h3 id="_transformation_d_une_page_en_application_angular"><a class="anchor" href="#_transformation_d_une_page_en_application_angular"></a>3.1. Transformation d&#8217;une page en application Angular</h3>
+<div class="paragraph">
+<p>La première étape consiste à transformer la page existante <code>app/store.html</code> en application Angular JS en utilisant la directive <code>ng-app</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_affichage_de_données_simples"><a class="anchor" href="#_affichage_de_données_simples"></a>3.2. Affichage de données simples</h3>
+<div class="paragraph">
+<p>Regarder l&#8217;utilisation de la directive <code>ng-init</code>. Utiliser les données du modèle pour afficher les informations suivantes dans la page :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Image (<em>thumbnail</em>)</p>
+</li>
+<li>
+<p>Titre (<em>title</em>)</p>
+</li>
+<li>
+<p>Numéro (<em>issueNumber</em>)</p>
+</li>
+<li>
+<p>Prix (<em>price</em>)</p>
+</li>
+<li>
+<p>Description (<em>description</em>)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/firststeps.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_affichage_de_données_tabulées"><a class="anchor" href="#_affichage_de_données_tabulées"></a>3.3. Affichage de données tabulées</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Pour les données</dt>
+<dd>
+<p>Remplacer le <em>snippet</em> suivant :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">comic = {
+    id: 21464,
+    title: 'Powers (2000)',
+    issueNumber: 18,
+    thumbnail: 'image/image_not_available.jpg',
+    price: 3.45,
+    description: '...'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Par le snippet suivant et le contenu du fichier <code>help/comics.json</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">comics = &lt;&lt;contenu du fichier&gt;&gt;</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Pour la page</dt>
+<dd>
+<div class="paragraph">
+<p>Remplacer le <em>snippet</em> suivant :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;div class="media"&gt;
+    ...
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Par le contenu du fichier <code>help/list.html</code>.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Maintenant, utiliser la directive <code>ng-repeat</code> pour itérer sur la collection de <em>comics</em> et afficher les données de chacun d&#8217;entre eux.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/repeat.png" alt="Résultat attendu">
+</div>
+</div>
+<div class="paragraph">
+<p>Corriger le code Angular pour afficher correctement l&#8217;image et le prix.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/repeat-fixed.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_de_structure_conditionnelle"><a class="anchor" href="#_utilisation_de_structure_conditionnelle"></a>3.4. Utilisation de structure conditionnelle</h3>
+<div class="paragraph">
+<p>La plupart des prix sont à 0. En utilisant la directive <code>ng-if</code>, n&#8217;afficher le prix que si celui-ci est positif.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/if.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_refactoring_en_script"><a class="anchor" href="#_refactoring_en_script"></a>3.5. Refactoring en script</h3>
+<div class="paragraph">
+<p>Jusqu&#8217;à maintenant, aucune JavaScript n&#8217;a été produit, tout est géré par Angular. Toutefois, la page souffre d&#8217;un poids important à cause de l&#8217;initialisation des données JSON.</p>
+</div>
+<div class="paragraph">
+<p>Il est temps d&#8217;appliquer le principe de séparation des responsabilités, avec d&#8217;une part la page HTML et d&#8217;autre par un fichier JavaScript.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer un fichier <code>app/script.js</code></p>
+</li>
+<li>
+<p>Y créer une application Angular <code>comicsApp</code></p>
+</li>
+<li>
+<p>Y créer un contrôleur <code>comicsController</code> associé</p>
+</li>
+<li>
+<p>Créer une propriété <code>comics</code> dans le contrôleur</p>
+</li>
+<li>
+<p>L&#8217;initialiser avec le contenu de la variable <code>comics</code> de la directive <code>ng-init</code> existante</p>
+</li>
+<li>
+<p>Supprimer la directive <code>ng-init</code> de la page</p>
+</li>
+<li>
+<p>Ajouter la directive <code>ng-controller</code> dans la page en utilisant le nom adapté</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Dans la valeur de <code>ng-controller</code>, ne pas oublier d&#8217;utiliser <code>as</code> pour pouvoir référencer le contrôleur et ses propriétés dans la page.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Adapter l&#8217;affichage des données pour être compatible avec la nouvelle structure</p>
+</li>
+<li>
+<p>Référencer le fichier JavasScript dans la page HTML</p>
+</li>
+<li>
+<p>Tester que rien n&#8217;a changé</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ajout_d_onglets"><a class="anchor" href="#_ajout_d_onglets"></a>3.6. Ajout d&#8217;onglets</h3>
+<div class="paragraph">
+<p>Afin de continuer le <em>workshop</em>, il est nécessaire d&#8217;ajouter des onglets.</p>
+</div>
+<div class="paragraph">
+<p>Pour ce faire, remplacer le <em>snippet</em> suivant :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;ul class="media-list"&gt;
+    ...
+&lt;/ul&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>par celui-ci :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;div class="tab-content"&gt;
+    &lt;ul class="media-list tab-pane fade in active"&gt;
+        ...
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Puis, insérer le contenu du fichier <code>help/tabs.html</code> juste avant.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/tabs.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_de_classe_css_conditionnelle"><a class="anchor" href="#_utilisation_de_classe_css_conditionnelle"></a>3.7. Utilisation de classe CSS conditionnelle</h3>
+<div class="paragraph">
+<p>Attribuer à l&#8217;onglet la classe CSS <em>active</em> permet de l&#8217;afficher comme l&#8217;onglet sélectionné (la classe supprime la bordure horizontale du bas).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer une propriété <code>tabIndex</code> dont la valeur initiale est <code>0</code> dans le contrôleur</p>
+</li>
+<li>
+<p>Toujours dans le contrôleur, créer une fonction <code>isSelected()</code> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>La fonctione accepte en unique paramètre un index</p>
+</li>
+<li>
+<p>La fonction retourne un booléen qui vérifie l&#8217;égalité entre le paramètre et <code>tabIndex</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Pour chaque onglet, utiliser la directive <code>ng-class</code> pour attribuer la classe CCS <em>active</em> si l&#8217;onglet courant est sélectionné.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_du_clic_angular"><a class="anchor" href="#_utilisation_du_clic_angular"></a>3.8. Utilisation du clic Angular</h3>
+<div class="paragraph">
+<p>L&#8217;objectif de cette section est de faire en sorte que lorsque l&#8217;utilisateur clique sur un onglet, ce dernier apparaisse sélectionné. Pour ce faire :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer une méthode <code>select()</code></p>
+</li>
+<li>
+<p>Utiliser la directive <code>ng-click</code> qui utilise cette dernière pour changer la propriété <code>tabIndex</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_filtre_par_onglet"><a class="anchor" href="#_filtre_par_onglet"></a>3.9. Filtre par onglet</h3>
+<div class="paragraph">
+<p>L&#8217;objectif de cette section est d&#8217;afficher uniquement les <em>comics</em> pertinents pour chaque onglet.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple, lorsque l&#8217;onglet "Powers" est sélectionné, seuls les <em>comics</em> dont un attribut possède la valeur (exacte) <code>"Powers (2000)"</code> sont affichés. Sur le premier onglet, tous les <em>comics</em> sont affichés.</p>
+</div>
+<div class="paragraph">
+<p>Pour ce faire, créer une nouvelle propriété du contrôleur nommée <code>titleFilter</code> et l&#8217;utiliser dans la directive <code>ng-repeat</code>.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/filter.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ordonnancement"><a class="anchor" href="#_ordonnancement"></a>3.10. Ordonnancement</h3>
+<div class="paragraph">
+<p>A ce point, les <em>comics</em> sont affichés par ordre de déclaration dans le fichier JSON. Il est préférable de les afficher par leur numérotation dans la série.</p>
+</div>
+<div class="paragraph">
+<p>Utiliser l&#8217;attribut <code>issueNumber</code> pour effectuer le tri.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/order.png" alt="Résultat attendu">
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vérifier les <em>comics</em> affichés sur le premier onglet. Il est nécessaire de trier d&#8217;abord par série, <strong>puis</strong> par numéro.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_d_un_em_scope_em_explicite"><a class="anchor" href="#_utilisation_d_un_em_scope_em_explicite"></a>3.11. Utilisation d&#8217;un <em>scope</em> explicite</h3>
+<div class="paragraph">
+<p>L&#8217;utilisation des propriétés du contrôleur rend malaisée son utilisation au niveau de la page HTML.</p>
+</div>
+<div class="paragraph">
+<p>Refactorer le code du contrôleur <strong>et</strong> de la page pour utiliser un <em>scope</em> explicite.</p>
+</div>
+<div class="paragraph">
+<p>Vérifier que rien l&#8217;application se comporte de manière identique.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implémentation_du_mvc"><a class="anchor" href="#_implémentation_du_mvc"></a>3.12. Implémentation du MVC</h3>
+<div class="paragraph">
+<p>Actuellement, le contrôleur source les données par l&#8217;intermédiaire de la variable <code>$scope.comics</code>. Cette approche est contraire au paradigme Modèle Vue Contrôleur qui impose une stricte séparation des responsabilités. Pour implémenter un MVC correct, nous allons (enfin) créer un service Angular.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer un nouveau script <code>script/service.js</code></p>
+</li>
+<li>
+<p>Le référencer dans la page HTML</p>
+</li>
+<li>
+<p>Y créer un nouveau service angular <code>comicsService</code></p>
+</li>
+<li>
+<p>Rattacher ce service à l&#8217;application Angular <code>comicsApp</code></p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Attention à la syntaxe de la fonction <code>module</code> qui en fonction du nombre d&#8217;arguments crée un nouveau module <strong>ou</strong> référence un module existant</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Dans ce service :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer une propriété <code>comics</code> qui contient la liste des comics</p>
+</li>
+<li>
+<p>Créer une fonction <code>getComics()</code> qui renvoit la valeur de la variable comics</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Modifier le contrôleur :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Injecter le nouveau service <code>comicsService</code></p>
+</li>
+<li>
+<p>Modifier la variable <code>$scope.comics</code> pour appeler la méthode <code>getComics()</code> du service</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_finalisation_de_la_séparation_des_responsabilités"><a class="anchor" href="#_finalisation_de_la_séparation_des_responsabilités"></a>3.13. Finalisation de la séparation des responsabilités</h3>
+<div class="paragraph">
+<p>Une fois l&#8217;étape précédente effectuée, il reste le code du contrôleur dans le fichier <code>script/app.js</code></p>
+</div>
+<div class="paragraph">
+<p>A l&#8217;instar de l&#8217;étape précédente, déplacer ce code dans un fichier dédié <code>script/controller.js</code> afin d&#8217;obtenir le découpage suivant par fichier :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Fichier</th>
+<th class="tableblock halign-left valign-top">Responsabilité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>script/app.js</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Création du module Angular</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>script/services.js</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gestion des services Angular</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>script/controller.js</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gestion des contrôleurs Angular</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_industrialisation_du_développement"><a class="anchor" href="#_industrialisation_du_développement"></a>4. Industrialisation du développement</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les navigateurs actuels implémentent le <a href="https://en.wikipedia.org/wiki/Same-origin_policy">Same-origin policy</a> afin d&#8217;éviter de charger des ressources provenant de domaines non autorisés, par exemple que la page servie par le domaine <em>mondomaine.com</em> charge dynamiquement une ressource depuis le domaine <em>hacker.com</em>.</p>
+</div>
+<div class="paragraph">
+<p>Comme les sections suivantes nécessitent le chargement de plusieurs ressources de script et que le protocole <code>file://</code> ne permet d&#8217;en charger plusieurs qu&#8217;en désactivant la sécurité du navigateur, il est nécessaire de mettre en place un serveur HTTP.</p>
+</div>
+<div class="paragraph">
+<p>Le lancement du serveur HTTP et le déploiement de l&#8217;application dans ce dernier nécessitent une automatisation des tâches. Dans le <em>workshop</em>, cette dernière est assurée par Grunt. Prendre quelques minutes pour lire le fichier.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Grunt est également configuré pour vérifier la bonne qualité du code JavaScript. Corriger les erreurs / avertissements signalés avant de continuer.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_minification_du_js"><a class="anchor" href="#_minification_du_js"></a>4.1. Minification du JS</h3>
+<div class="paragraph">
+<p>Afin que la charge de téléchargement initial soit la moins lourde possible - les appels subséquents iront se sourcer directement depuis le cache local, il est une bonne pratique de minifier les fichiers de scripts (et de styles).</p>
+</div>
+<div class="paragraph">
+<p>Grunt est déjà configuré pour cela. Il est toutefois nécessaire d&#8217;encadrer ces déclarations par un commentaire qui sera traité par Grunt lors de la construction.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!-- build:js scripts/main.js --&gt;
+    &lt;script type="text/javascript" src="script/app.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="script/service.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="script/controller.js"&gt;&lt;/script&gt;
+&lt;!-- endbuild --&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mise_en_place_du_serveur_http"><a class="anchor" href="#_mise_en_place_du_serveur_http"></a>4.2. Mise en place du serveur HTTP</h3>
+<div class="paragraph">
+<p>Pour lancer le serveur HTTP, il est uniquement nécessaire de lancer cette commande :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">grunt serve</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le script Grunt existant est déjà configuré de manière adéquate. L&#8217;exécution de la commande va créer un répertoire <code>dist</code> à la racine du projet, démarrer un serveur HTTP embarqué accessible sur le port 9000 puis ouvrir un navigateur à cette adresse.</p>
+</div>
+<div class="paragraph">
+<p>Vérifier que rien l&#8217;application se comporte de manière identique lorsqu&#8217;elle est servie par le serveur HTTP.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_des_includes"><a class="anchor" href="#_utilisation_des_includes"></a>4.3. Utilisation des includes</h3>
+<div class="paragraph">
+<p>Afin de pouvoir maintenir plus facilement l&#8217;application, découper la page en fragments :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Renommer le fichier <code>store.html</code> en <code>index.html</code></p>
+</li>
+<li>
+<p>Dans ce dernier :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Déplacer le contenu du <code>div</code> qui comporte la classe <code>row</code> dans un fichier <code>comics.html</code></p>
+</li>
+<li>
+<p>Utiliser la directive <code>ng-include</code> pour inclure celui-ci dans le fichier <code>index.html</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Modifier le fichier <code>Gruntfile.js</code> pour que le fichier <code>index.html</code> soit la page présentée par défaut (<em>cf.</em> ligne 141)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Vérifier que rien l&#8217;application se comporte de manière identique à précédemment.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_préparation_de_la_navigation"><a class="anchor" href="#_préparation_de_la_navigation"></a>4.4. Préparation de la navigation</h3>
+<div class="paragraph">
+<p>Afin de préparer la suite du développement, inclure la barre de navigation juste au-dessous de la balise <code>&lt;h1&gt;</code>. Le fichier concerné est <code>navbar.html</code> disponible dans le dossier <code>include</code>.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/navbar.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implémentation_de_la_barre_de_navigation"><a class="anchor" href="#_implémentation_de_la_barre_de_navigation"></a>4.5. Implémentation de la barre de navigation</h3>
+<div class="paragraph">
+<p>Implémenter chaque lien de la barre de navigation via une route Angular. La table de routage est la suivante :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Lien</th>
+<th class="tableblock halign-left valign-top">Fichier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Home</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>view/home.html</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">About us</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>view/about.html</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comics.html</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ne pas oublier :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>D&#8217;injecter la dépendance <code>ngRoute</code> lors de l&#8217;initialisation de l&#8217;application</p>
+</li>
+<li>
+<p>D&#8217;inclure le script <code>angular-route(.min).js</code> dans la page d&#8217;index</p>
+</li>
+<li>
+<p>D&#8217;ajouter le script au build Grunt :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">          {
+            cwd: 'bower_components/angular-route',
+            src: 'angular-route.min.js',
+            dest: 'dist',
+            expand: true
+          },</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_affichage_détaillé_d_un_em_comic_em"><a class="anchor" href="#_affichage_détaillé_d_un_em_comic_em"></a>4.6. Affichage détaillé d&#8217;un <em>comic</em></h3>
+<div class="paragraph">
+<p>Lorsque l&#8217;utilisateur clique sur le titre d&#8217;un <em>comic</em>, afficher le descriptif détaillé de celui-ci à l&#8217;aide de la vue <code>view/comic.html</code> et de la directive <code>ng-route</code> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ajouter un lien sur le titre du <em>comic</em> dans la liste. Utiliser comme paramètre l&#8217;attribut <code>id</code> du <em>comic</em></p>
+</li>
+<li>
+<p>Ajouter au service <code>comicService</code> une fonction <code>getComic()</code> qui retourne le <em>comic</em> dont l&#8217;id est passé en paramètre</p>
+</li>
+<li>
+<p>Ajouter un contrôleur <code>comicController</code> qui appelle cette nouvelle fonction. Utiliser le service <code>$routeParams</code></p>
+</li>
+<li>
+<p>Ajouter une route utilisant <code>id</code> et qui pointe vers ce nouveau contrôleur</p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/navbar.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilisation_du_titre_et_du_numéro_pour_la_navigation"><a class="anchor" href="#_utilisation_du_titre_et_du_numéro_pour_la_navigation"></a>4.7. Utilisation du titre et du numéro pour la navigation</h3>
+<div class="paragraph">
+<p>A présent, changer le code pour utiliser <code>title</code> et <code>issueNumber</code> à la place de <code>id</code>. Cette modification permet à un utilisateur d&#8217;afficher directement le détail d&#8217;un <em>comic</em> dont il connait le titre et le numéro.</p>
+</div>
+<div class="paragraph">
+<p>Vérifier que rien l&#8217;application se comporte de manière identique.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_utilisation_de_l_api_marvel"><a class="anchor" href="#_utilisation_de_l_api_marvel"></a>5. Utilisation de l&#8217;API Marvel</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le but de cette section est de supprimer du service les données "en dur" et d&#8217;utiliser l&#8217;API offerte par Marvel.com.</p>
+</div>
+<div class="sect2">
+<h3 id="_création_et_configuration_de_compte"><a class="anchor" href="#_création_et_configuration_de_compte"></a>5.1. Création et configuration de compte</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>La première étape consiste à créer un compte développeur sur <a href="https://secure.marvel.com/user/register" target="_blank">developer.marvel.com</a>.</p>
+</li>
+<li>
+<p>Puis, récupérer la <a href="https://developer.marvel.com/account" target="_blank">clé d&#8217;API publique</a>.</p>
+</li>
+<li>
+<p>Ne pas oublier de mettre à jour la liste des site habilités avec <code>localhost</code>.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="doc/marvel-account.png" alt="Marvel Comics developer account^">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nettoyage_du_code"><a class="anchor" href="#_nettoyage_du_code"></a>5.2. Nettoyage du code</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Dans <code>comicsController</code>, supprimer le code relatif aux onglets</p>
+</li>
+<li>
+<p>Dans <code>comics.html</code>, supprimer les onglets eux-mêmes - y compris <code>&lt;div class="tab-content"&gt;</code></p>
+</li>
+<li>
+<p>Dans <code>service.js</code>, supprimer la variable <code>comics</code> et sa valeur</p>
+</li>
+<li>
+<p>Revenir à l&#8217;utilisation de l&#8217;attribut <code>id</code> pour afficher le détail d&#8217;un <em>comic</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_appel_de_l_api_via_http"><a class="anchor" href="#_appel_de_l_api_via_http"></a>5.3. Appel de l&#8217;API via $http</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer une constante Angular pour contenir la base de l&#8217;URL de l&#8217;API -  <a href="https://gateway.marvel.com:443" class="bare">https://gateway.marvel.com:443</a></p>
+</li>
+<li>
+<p>Injecter cette constante dans le service <code>comicsService</code></p>
+</li>
+<li>
+<p>Créer un nouveau service <code>configService</code> qui renvoit la valeur de la clé d&#8217;API</p>
+</li>
+<li>
+<p>Injecter ce service dans le service <code>comicsService</code></p>
+</li>
+<li>
+<p>Modifier le service <code>comicsService</code> en remplaçant la variable <code>comics</code> par l&#8217;utilisation judicieuse de la directive <code>$http</code> pour charger les données depuis le serveur Marvel :</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>La documentation complète de l&#8217;API Marvel est disponible <a href="https://developer.marvel.com/docs" target="_blank">en-ligne</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>La liste des <em>comics</em> est accessible via <a href="https://developer.marvel.com/docs#!/public/getComicsCollection_get_6" target="_blank">/v1/public/comics</a>, sans oublier d&#8217;utiliser le paramètre de requête <code>apikey</code> (et le paramètre <code>limit</code> si l&#8217;on veut plus que 20 éléments)</p>
+</li>
+<li>
+<p>Le détail d&#8217;un <em>comic</em> est accessible via <a href="https://developer.marvel.com/docs#!/public/getComicIndividual_get_7" target="_blank">/v1/public/comics/{id}</a>, sans oublier d&#8217;utiliser le paramètre de requête <code>apikey</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Modifer le code contrôleur pour valorise le <code>$scope</code> avec la liste des <em>comics</em> (ou le détail de l&#8217;un d&#8217;entre eux)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="doc/marvel.png" alt="Résultat attendu">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_appel_de_l_api_via_resource"><a class="anchor" href="#_appel_de_l_api_via_resource"></a>5.4. Appel de l&#8217;API via $resource</h3>
+<div class="paragraph">
+<p>Remplacer l&#8217;utilisation de <code>$http</code> par <code>$resource</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ne pas oublier :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>D&#8217;injecter la dépendance <code>ngResource</code> lors de l&#8217;initialisation de l&#8217;application</p>
+</li>
+<li>
+<p>D&#8217;inclure le script <code>angular-resource(.min).js</code> dans la page d&#8217;index</p>
+</li>
+<li>
+<p>D&#8217;ajouter le script au build Grunt :</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">          {
+            cwd: 'bower_components/angular-resource',
+            src: 'angular-resource.min.js',
+            dest: 'dist',
+            expand: true
+          },</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_du_code"><a class="anchor" href="#_test_du_code"></a>6. Test du code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>L&#8217;objectif de cette section est de s&#8217;assurer que le code répond bien aux exigences.</p>
+</div>
+<div class="paragraph">
+<p>Dans le cadre de ce <em>workshop</em> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://karma-runner.github.io/1.0/index.html" target="_blank">Karma</a> est l&#8217;exécuteur de tests unitaires</p>
+</li>
+<li>
+<p><a href="http://www.protractortest.org/" target="_blank">Protractor</a> est l&#8217;exécuteur de tests <em>end-to-end</em></p>
+</li>
+<li>
+<p><a href="https://jasmine.github.io/" target="_blank">Jasmine</a> est le <em>framework</em> de test</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Le <em>build</em> est déjà configuré pour le lancement des tests. Il suffit de créer ces derniers :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>les tests unitaires dans le dossier <code>test/unit</code></p>
+</li>
+<li>
+<p>les tests <em>end-to-end</em> dans <code>test/e2e</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>La commande à lancer est :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">grunt test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cette commande :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>exécute les tests unitaires</p>
+</li>
+<li>
+<p>construit l&#8217;application</p>
+</li>
+<li>
+<p>lance le serveur web local</p>
+</li>
+<li>
+<p>exécute les tests <em>end-to-end</em></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_tester_que_le_contrôleur_alimente_les_em_comics_em"><a class="anchor" href="#_tester_que_le_contrôleur_alimente_les_em_comics_em"></a>6.1. Tester que le contrôleur alimente les <em>comics</em></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer un fichier <code>test/unit/controller.spec.js</code></p>
+</li>
+<li>
+<p>Y créer une suite <code>comicsController</code> via la fonction <code>describe()</code></p>
+</li>
+<li>
+<p>Dans celle-ci, initialiser le module <code>comicsApp</code> avant chaque spécification</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">beforeEach(module('comicsApp'));</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Puis, créer une spécification pour vérifier que l&#8217;interaction entre le contrôleur et le service alimente la variable <code>comics</code> du <em>scope</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Injecter les ressources nécessaires pour le test</p>
+</li>
+<li>
+<p>Créer un objet <em>scope</em> vide <code>{}</code></p>
+</li>
+<li>
+<p>Via <code>$httpBackend</code>, retourner une réponse comportant des <em>comics</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pour faire simple, l&#8217;expression régulière identifie n&#8217;importe quelle chaîne de caractères <code>new RegExp('.*')</code></p>
+</li>
+<li>
+<p>L&#8217;entité JSON comporte un tableau d&#8217;objets, chacun avec des paires nom-valeur (par exemple <code>id</code>, <code>title</code> et <code>issueNumber</code>)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "data": {
+        "results": [
+            {
+                "id": 42882,
+                "issueNumber": 6,
+                "title": "Lorna the Jungle Girl (1954) #6",
+            },
+            {
+               "id": 43092,
+               "issueNumber": 7,
+               "title": "Brilliant (2011) #7",
+            }
+        ]
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Créer le contrôleur <code>comicsController</code> en utilisant la directive <code>$controller</code> et en passant les paramètres nécessaires</p>
+</li>
+<li>
+<p>Ne pas oublier de forcer la résolution via <code>$httpBackend.flush</code></p>
+</li>
+<li>
+<p>Vérifier que le <em>scope</em> est bien rempli avec les <em>comics</em> de la réponse <em>mock</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Pour n&#8217;exécuter <strong>que</strong> les tests unitaires :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">grunt karma</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tester_l_application_déployée"><a class="anchor" href="#_tester_l_application_déployée"></a>6.2. Tester l&#8217;application déployée</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Créer un fichier <code>test/e2e/spec.js</code></p>
+</li>
+<li>
+<p>Y créer une suite <code>comicsApp</code> via la fonction <code>describe()</code></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_tester_l_écran_d_accueil"><a class="anchor" href="#_tester_l_écran_d_accueil"></a>6.2.1. Tester l&#8217;écran d&#8217;accueil</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Naviguer sur l&#8217;écran d&#8217;accueil via l&#8217;objet <code>browser</code></p>
+</li>
+<li>
+<p>Vérifier qu&#8217;il y ait une unique balise <code>&lt;img&gt;</code> sur la page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tester_l_écran_a_propos"><a class="anchor" href="#_tester_l_écran_a_propos"></a>6.2.2. Tester l&#8217;écran A propos</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Naviguer sur l&#8217;écran A propos via l&#8217;objet <code>browser</code></p>
+</li>
+<li>
+<p>Vérifier qu&#8217;il y ait une unique balise <code>&lt;address&gt;</code> sur la page</p>
+</li>
+<li>
+<p>Vérifier également la présence d&#8217;une unique balise <code>&lt;blockquote&gt;</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tester_l_écran_de_liste_de_em_comics_em"><a class="anchor" href="#_tester_l_écran_de_liste_de_em_comics_em"></a>6.2.3. Tester l&#8217;écran de liste de <em>comics</em></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Naviguer sur l&#8217;écran de liste de <em>comics</em> via l&#8217;objet <code>browser</code></p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ne pas oublier d&#8217;attendre la fin du chargement de la page avec <code>browser.waitForAngular()</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Vérifier qu&#8217;il y ait bien 50 éléments, par exemple <code>li.media</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tester_l_écran_de_détail_d_un_em_comic_em"><a class="anchor" href="#_tester_l_écran_de_détail_d_un_em_comic_em"></a>6.2.4. Tester l&#8217;écran de détail d&#8217;un <em>comic</em></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Cliquer sur le premier lien de la liste des <em>comics</em></p>
+</li>
+<li>
+<p>Attendre la fin du chargement de la page</p>
+</li>
+<li>
+<p>Vérifier qu&#8217;il y a bien 3 listes qui ont la classe CSS <code>list-group</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compatibilité_mobile"><a class="anchor" href="#_compatibilité_mobile"></a>7. Compatibilité mobile</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>L&#8217;objectif de cette section est de garantir que l&#8217;application s&#8217;affiche de manière adaptée sur mobile.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="doc/desktop-display.png" alt="About page displayed on desktop"></span>
+<span class="image"><img src="doc/mobile-display.png" alt="About page displayed on mobile"></span></p>
+</div>
+<div class="sect2">
+<h3 id="_tester_l_affichage_sur_mobile"><a class="anchor" href="#_tester_l_affichage_sur_mobile"></a>7.1. Tester l&#8217;affichage sur mobile</h3>
+<div class="paragraph">
+<p><a id="test-mobile-display"></a>Dans Chrome, afficher les outils de développeur (<span class="keyseq"><kbd>&#8997;</kbd>+<kbd>&#8984;</kbd>+<kbd>I</kbd></span>). Dans la <em>frame</em> qui s&#8217;affiche, localiser le bouton de changement d&#8217;appareil (<span class="keyseq"><kbd>&#8984;</kbd>+<kbd>&#8679;</kbd>+<kbd>M</kbd></span>).</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/toggle-device-toolbar.png" alt="Toggle device toolbar button"></span></p>
+</div>
+<div class="paragraph">
+<p>Cliquer sur le bouton mentionné ci-dessus : la barre de changement d&#8217;appareils s&#8217;affiche en haut. Il est maintenant possible de changer d&#8217;appareil dans la liste déroulante.</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/device-toolbar.png" alt="Device toolbar"></span></p>
+</div>
+<div class="paragraph">
+<p>Si l&#8217;application a été correctement développée, l&#8217;affichage doit s&#8217;adapter à la taille de l&#8217;appareil pour en faciliter la lecture.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rendre_la_barre_de_navigation_em_responsive_em"><a class="anchor" href="#_rendre_la_barre_de_navigation_em_responsive_em"></a>7.2. Rendre la barre de navigation <em>responsive</em></h3>
+<div class="paragraph">
+<p>Bootstrap offre une barre de navigation <em>responsive</em> par défaut. L&#8217;implémentation HTML de la barre actuelle est incorrecte. Corriger celle-ci pour la rendre <em>responsive</em> à l&#8217;aide de <a href="https://getbootstrap.com/components/#navbar:" target="_blank">la documentation</a>.</p>
+</div>
+<div class="paragraph">
+<p>Une fois la correction effectuée, vérifier que la barre affiche les éléments de manière verticale sur les dispositifs de très petite taille (c&#8217;est-à-dire les téléphones) en utilisant la méthode décrite au <a href="#test-mobile-display">paragraphe précédent</a>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/vertical-stacked-navbar-items.png" alt="Items stacked vertically on the navbar"></span></p>
+</div>
+<div class="paragraph">
+<p>Puis, déplacer le titre de son emplacement initial vers l&#8217;emplacement d&#8217;en-tête de la barre de navigation (<code>navbar-header</code>) à l&#8217;aide de la <a href="https://getbootstrap.com/components/#navbar-default" target="_blank">documentation</a>. Le résultat est le suivant :</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/title-moved-to-navbar.png" alt="Title move to navbar"></span></p>
+</div>
+<div class="paragraph">
+<p>Enfin, ajouter une marge au-dessus de la barre de navigation pour rendre l&#8217;écran plus "aéré".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rendre_la_page_de_détail_em_responsive_em"><a class="anchor" href="#_rendre_la_page_de_détail_em_responsive_em"></a>7.3. Rendre la page de détail <em>responsive</em></h3>
+<div class="paragraph">
+<p>Un écran de bureau disposé en mode paysage permet d&#8217;afficher l&#8217;intégralité des information horizontalement. Au contraire, les téléphones sont souvent consultés en mode portrait. L&#8217;affichage doit donc s&#8217;adapter à cette contrainte pour disposer les informations.</p>
+</div>
+<div class="paragraph">
+<p>Il s&#8217;agit de modifier la page de détail pour obtenir le résultat suivant lorsqu&#8217;elle est consultée sur un téléphone :</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/responsive-detail-page-phone.png" alt="Comics detail page shown on phone"></span></p>
+</div>
+<div class="paragraph">
+<p>Et sur tablette :</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/responsive-detail-page-tablet.png" alt="Comics detail page shown on tablet"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>L&#8217;image n&#8217;est pas coupée, il s&#8217;agit uniquement de pouvoir afficher la page dans cette documentation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Voici les étapes à suivre :</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Affichage des colonnes d&#8217;information</dt>
+<dd>
+<p>En s&#8217;aidant de la documentation sur les <a href="https://getbootstrap.com/css/#grid-options" target="_blank">options</a> du système de grille, modifier l&#8217;affichage des colonnes afin qu&#8217;elles s&#8217;affichent l&#8217;une en dessous de l&#8217;autre sur les téléphones uniquement. Dans le reste des cas, elles continuent à s&#8217;afficher l&#8217;une à côté de l&#8217;autre.</p>
+</dd>
+<dt class="hdlist1">Adapter l&#8217;affichage de l&#8217;image</dt>
+<dd>
+<p>L&#8217;image actuelle est positionnée sur les 4 premières colonnes de gauche quel que soit le dispositif d&#8217;affichage. Modifier les classes ainsi :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Sur les téléphones, l&#8217;image utilise la largeur entière de la grille</p>
+</li>
+<li>
+<p>Sur les tablettes, elle occupe 6 colonnes et est centrée</p>
+</li>
+<li>
+<p>Sur les dispositifs d&#8217;affichage plus grands, elle occupe seulement 4 colonnes et est également centrée</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Séparer le texte de l&#8217;image</dt>
+<dd>
+<p>Disposer le titre sur une ligne dédiée et l&#8217;image sur une autre</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rendre_la_page_de_liste_em_responsive_em"><a class="anchor" href="#_rendre_la_page_de_liste_em_responsive_em"></a>7.4. Rendre la page de liste <em>responsive</em></h3>
+<div class="paragraph">
+<p>En ce qui concerne la page de liste, les étapes à réaliser sont les suivantes :</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Médias</dt>
+<dd>
+<p>Les médias (<code>media-list</code>) ne sont <strong>pas</strong> <em>responsives</em>, il est donc nécessaire de transformer la structure actuelle en ligne de grille standard.</p>
+</dd>
+<dt class="hdlist1">Séparation du texte et de l&#8217;image</dt>
+<dd>
+<p>Pour les téléphones et les tablettes, afficher le texte au-dessus de l&#8217;image. Pour les autres appareils, afficher la partie textuelle sur les 8 premières colonnes, l&#8217;image sur les 4 autres.</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Le titre et la description doivent être affichés dans des blocs séparés.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+<dt class="hdlist1"><em>Responsive</em> image</dt>
+<dd>
+<p>Adapter la taille de l&#8217;image à la largeur de l&#8217;écran en utilisant <a href="https://getbootstrap.com/css/#images-responsive" target="_blank">la classe CSS adaptée</a>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Le résultat attendu est le suivant :</p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/responsive-list-page-phone.png" alt="Comics list page shown on phone"></span></p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/responsive-list-page-tablet.png" alt="Comics list page shown on tablet"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_la_touche_finale"><a class="anchor" href="#_la_touche_finale"></a>7.5. La touche finale</h3>
+<div class="paragraph">
+<p>Afficher l&#8217;intégralité des éléments de menu occupe une large partie de l&#8217;écran sur les appareils de dimension réduite. Dans ce cas, il est d&#8217;usage d&#8217;afficher un bouton "hamburger" qui permet de déplier/plier les éléments du menu.</p>
+</div>
+<div class="paragraph">
+<p>Bootstrap offre les fonctionnalités nécessaires, il suffit de les assembler:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tout d&#8217;abord, ajouter un bouton situé à l&#8217;extrémité droite de la <a href="https://getbootstrap.com/components/#navbar" target="_blank">barre de navigation</a>.</p>
+</li>
+<li>
+<p>Ajouter l&#8217;icône de hamburger. Pour cela, s&#8217;aider de la "librairie" <a href="https://getbootstrap.com/components/#glyphicons" target="_blank"><em>Glyphicons</em></a>, également partie de la distribution de Bootstrap (les icônes sont déjà intégrés via la feuille de style <code>bootstrap.css</code>).</p>
+</li>
+<li>
+<p>Afin de permettre le comportement dynamique, référencer le script <code>collapse.js</code> qui fait partie de la distribution de Bootstrap.</p>
+</li>
+<li>
+<p>Puis, ajouter le comportement au bouton à l&#8217;aide de <a href="https://getbootstrap.com/javascript/#collapse" target="_blank">la documentation</a> du composant <em>collapse</em>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Tout se fait de manière déclarative, il n&#8217;y a pas besoin d&#8217;écrire du code JavaScript.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Enfin, masquer le bouton lorsque les éléments de menu sont affichés horizontalement.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/hamburger-menu-phone.png" alt="Menu shown on phone"></span></p>
+</div>
+<div class="paragraph">
+<p><span class="image center"><img src="doc/hamburger-menu-tablet.png" alt="Menu shown on tablet"></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aller_plus_loin"><a class="anchor" href="#_aller_plus_loin"></a>8. Aller plus loin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Quand vous avez fini le <em>workshop</em>, ce n&#8217;est pas fini. Il y a toujours des choses à faire, voici quelques possibilités :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Utiliser TypeScript</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Migrer le code en TypeScript</p>
+</li>
+<li>
+<p>Intégrer un transpileur TypeScript au sein du build</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Utiliser EcmaScript 6</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Rendre le code compatible EcmaScript 6</p>
+</li>
+<li>
+<p>Intégrer un transpileur EcmaScript 6, par exemple <a href="https://babeljs.io/" target="_blank">Babel</a> au sein du build</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Remplacer les onglets par une vraie section de recherche, incluant :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>le nombre d&#8217;entités retournées sous forme de liste déroulante</p>
+</li>
+<li>
+<p>un champ de texte pour la recherche, par exemple "Spider*"</p>
+</li>
+<li>
+<p>etc.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2018-07-01 12:29:39 UTC
+</div>
+</div>
+</body>
+</html>
